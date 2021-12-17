@@ -13,22 +13,22 @@
 <!--    <td th:text="${user.userMail}"></td>-->
 <!--    <td th:text="${user.password}"></td>-->
 <!--</tr>-->
-<table>
+<table border="solid">
     <thead>
         <tr>
             <th>Usermail</th>
             <th>Password</th>
             <th>User_role</th>
+            <th>Edit</th>
         </tr>
     </thead>
     <tbody>
         <tr th:each="user : ${users}">
-            <td th:text="*{user.userMail}">user1</td>
-            <td th:text="${user.password}">password1</td>
-            <td th:text="${user.user_role}">role1</td>
+            <td th:text="${user.userMail}">user_place_holder</td>
+            <td th:text="${user.password}">password_place_holder</td>
+            <td th:text="${user.user_role}">user_role_play_holder</td>
             <td><a th:href="@{/edit/{userMail}(userMail=${user.userMail})}">Edit</a></td>
 <!--            <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>-->
-
         </tr>
     </tbody>
 </table>

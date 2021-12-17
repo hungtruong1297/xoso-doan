@@ -5,9 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -22,11 +20,13 @@ public class Result {
     @NonNull
     private Date date;
 
-    @NonNull
-    private long province_id;
+    @ManyToOne
+    @JoinColumn(name="province_id")
+    private Province province;
 
-    @NonNull
-    private long winning_id;
+    @ManyToOne
+    @JoinColumn(name="winning_id")
+    private Winning winning;
 
     @NonNull
     private String result;
