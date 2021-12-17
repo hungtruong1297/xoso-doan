@@ -1,5 +1,6 @@
 package com.hungfunix.xosodemo.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -18,6 +19,7 @@ public class Result {
     private long id;
 
     @NonNull
+    @JsonFormat(timezone = "Asia/Saigon", pattern = "dd-MM-yyyy")
     private Date date;
 
     @ManyToOne
