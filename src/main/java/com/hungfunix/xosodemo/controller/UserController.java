@@ -1,8 +1,11 @@
 package com.hungfunix.xosodemo.controller;
 
+import com.hungfunix.xosodemo.model.Result;
 import com.hungfunix.xosodemo.model.User;
 import com.hungfunix.xosodemo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,19 +14,46 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/")
+@RestController
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/users")
-    public String listAllUsers(Model model) {
-//        List<User> users = userRepository.findAll();
-//        model.addAttribute("users", users);
-        model.addAttribute("users", userRepository.findAll());
-        return "user-list";
+    @GetMapping("")
+    public List<User> getActiveUsers() {
+        // Status id: 1 -> Active
+        // Status id: 0 -> Inactive
+        return userRepository.findUserByStatus(1);
+    }
+
+    @GetMapping("/searchByMail/{userMail}")
+    public List<User> getUsersByMail(@PathVariable String userMail) {
+        return userRepository.findAllByMailContains(userMail);
+    }
+
+    @GetMapping("/searchByPhone/{phone}")
+    public List<User> getUsersByPhone(@PathVariable String phone) {
+        return userRepository.findAllByPhoneContains(phone);
+    }
+
+
+    @DeleteMapping("/{userMail}")
+    public ResponseEntity<User> disableUserByEmail(@PathVariable(value="userMail") String userMail) {
+        User user = userRepository.findById(userMail).orElseThrow();
+
+//        try {
+//            userRepository.deleteById(userMail);
+//            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Deleted.");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        user.setStatus(0);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(user);
     }
 
 

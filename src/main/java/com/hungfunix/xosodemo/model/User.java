@@ -4,9 +4,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="[USER]")
@@ -15,10 +16,29 @@ import javax.persistence.Table;
 public class User {
 
     @Id
-    private String userMail;
+    @GeneratedValue
+    @Column(name = "user_id")
+    private int id;
+
+
+    @Column(name="user_mail")
+    private String mail;
+
     @NonNull
     private String password;
-    @NonNull
-    private String user_role;
 
+    // V2:
+    @NonNull
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="role_id"))
+    private Set<Role> roles;
+
+    @NonNull
+    private String phone;
+
+    @NonNull
+    private String name;
+
+    @NonNull
+    private int status;
 }

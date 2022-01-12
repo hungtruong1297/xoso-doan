@@ -9,13 +9,14 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
 
-    @Query(value = "SELECT * FROM [USER] U WHERE U.USER_ROLE = 'USER'",
-        nativeQuery = true)
-    Collection<User> findAllByRoleUser();
+    List<User> findUserByStatus(int statusId);
 
-    @Query("SELECT U.userMail FROM User U")
-    Collection<User> findAlByRoleUserJPQL();
+    List<User> findAllByMailContains(String mail);
+
+    List<User> findAllByPhoneContains(String phone);
+
+    User findUserByMail(String mail);
 
 }
