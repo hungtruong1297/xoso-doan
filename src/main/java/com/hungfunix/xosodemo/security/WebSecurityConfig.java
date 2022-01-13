@@ -41,17 +41,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers("/api/**").hasAnyAuthority("USER")
-                .antMatchers("/secure/**").hasAnyAuthority("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().permitAll()
-                .and()
-                .logout().permitAll()
-        ;
+        http.csrf().disable();
+//        http
+//                .httpBasic().and()
+//                .authorizeRequests()
+//                .antMatchers("/").hasAnyAuthority("USER", "ADMIN")
+//                .antMatchers("/api/**").hasAnyAuthority("USER")
+//                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin().permitAll()
+//                .and()
+//                .logout().permitAll()
+//        ;
         // Source: https://www.codejava.net/frameworks/spring-boot/spring-boot-security-role-based-authorization-tutorial
+        // Plus line: httpBasic().and()
     }
 
 }

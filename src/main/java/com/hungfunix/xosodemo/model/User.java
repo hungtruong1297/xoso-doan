@@ -16,7 +16,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int id;
 
@@ -29,8 +29,13 @@ public class User {
 
     // V2:
     @NonNull
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="role_id"))
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    // Here, we don't use cascade or we use cascade MERGE. if All -> error
+    // Error: Detached
+    // Source: https://stackoverflow.com/questions/2441598/detached-entity-passed-to-persist-error-with-jpa-ejb-code
+    @JoinTable(name="user_role",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id"))
     private Set<Role> roles;
 
     @NonNull
