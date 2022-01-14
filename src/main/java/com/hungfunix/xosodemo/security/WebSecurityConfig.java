@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Random;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -50,12 +52,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
 //                .anyRequest().authenticated()
 //                .and()
-//                .formLogin().permitAll()
+//                .formLogin()
+//                .permitAll()
 //                .and()
 //                .logout().permitAll()
 //        ;
         // Source: https://www.codejava.net/frameworks/spring-boot/spring-boot-security-role-based-authorization-tutorial
         // Plus line: httpBasic().and()
+        // Plus line: http.csrf().disable();
+        // Remove Cascade ALL in User
     }
 
 }
