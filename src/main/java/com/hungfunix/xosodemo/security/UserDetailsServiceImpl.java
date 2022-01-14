@@ -31,8 +31,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 //  When uncomment this, make sure to import the project User class
 
-    @Autowired
-    BCryptPasswordEncoder encoder;
+//    @Autowired
+//    BCryptPasswordEncoder encoder;
 
 //    @Override
 //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

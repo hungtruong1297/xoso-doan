@@ -1,16 +1,20 @@
 package com.hungfunix.xosodemo.security;
 
+import com.hungfunix.xosodemo.filters.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Random;
 
@@ -36,6 +40,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         return authProvider;
     }
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -66,7 +73,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/authenticate").permitAll()
-                    .anyRequest().authenticated();
+                    .anyRequest().authenticated()
+                    .and()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Tell spring security don't create session (Step 1)
+        // Step 2:
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 
