@@ -36,7 +36,7 @@ public class HelloResource {
 
     // AuthenticationRequest is simply the Payload of the Body
     @PostMapping("/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest request) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody User request) throws Exception {
 
         // The request.getPassword() here doesn't need BCrypt, because authenticationManager automatically use BCrypt itself.
         try {
