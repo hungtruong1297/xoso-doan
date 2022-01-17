@@ -73,11 +73,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/authenticate").permitAll()
+                    .antMatchers("/api/register").permitAll()
+                    .antMatchers("/api/login").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Tell spring security don't create session (Step 1)
         // Step 2:
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Make sure jwtRequestFilter is called before UsernamePassword... called
 
     }
 
