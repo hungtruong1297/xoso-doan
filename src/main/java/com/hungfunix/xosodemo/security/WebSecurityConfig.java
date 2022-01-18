@@ -32,22 +32,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    // Config DaoAuthenticationProvider
+    // that uses Beans
+    // passwordEncoder() and userDtailsService()
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
+    }
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;
     }
 
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
-    }
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -75,6 +83,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/authenticate").permitAll()
                     .antMatchers("/api/register").permitAll()
                     .antMatchers("/api/login").permitAll()
+                    .antMatchers("/api/admin").hasAuthority("ADMIN")
+                    .antMatchers("/api/users").hasAuthority("ADMIN")
                     .anyRequest().authenticated()
                     .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Tell spring security don't create session (Step 1)

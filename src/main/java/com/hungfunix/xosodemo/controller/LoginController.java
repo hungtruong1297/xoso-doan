@@ -33,11 +33,6 @@ public class LoginController {
     @Autowired
     private JwtUtil jwtTokenUtil;
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello World";
-    }
-
     // Source: https://www.youtube.com/watch?v=X80nJ5T7YpE&ab_channel=JavaBrains
     // JWT + SpringBoot from Scratch
 
@@ -57,9 +52,10 @@ public class LoginController {
         UserDetails userDetails = userDetailsService
                 .loadUserByUsername(request.getMail());
 
-        String jwt = jwtTokenUtil.generateToken(userDetails);
+        String token = jwtTokenUtil.generateToken(userDetails);
+        String username = jwtTokenUtil.extractUsername(token);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationResponse(token, username));
 
     }
 }

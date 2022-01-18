@@ -51,8 +51,9 @@ public class HelloResource {
                 .loadUserByUsername(request.getMail());
 
         String jwt = jwtTokenUtil.generateToken(userDetails);
+        String username = jwtTokenUtil.extractUsername(jwt);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationResponse(jwt, username));
 
     }
 

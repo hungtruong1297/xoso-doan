@@ -1,13 +1,15 @@
 package com.hungfunix.xosodemo.models;
 
 public class AuthenticationResponse {
-    public final String jwt;
+    public final String token;
+    public final String username;
 
-    public AuthenticationResponse(String jwt) {
-        this.jwt = jwt;
+    public AuthenticationResponse(String token, String username) {
+        this.token = token;
+        this.username = username;
     }
 
-    public String getJwt() {
-        return jwt;
+    public String getToken() {
+        return token;
     }
 }
