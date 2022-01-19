@@ -39,7 +39,7 @@ public class RegisterController {
 
         // Create Role instance: USER
         Role userRole = new Role();
-        userRole.setRoleId(1);
+        userRole.setRoleId(2);
         userRole.setRoleName("USER");
 
         roles.add(userRole);

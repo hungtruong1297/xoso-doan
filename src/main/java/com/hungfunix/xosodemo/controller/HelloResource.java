@@ -53,7 +53,7 @@ public class HelloResource {
         String jwt = jwtTokenUtil.generateToken(userDetails);
         String username = jwtTokenUtil.extractUsername(jwt);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt, username));
+        return ResponseEntity.ok(new AuthenticationResponse(jwt, username, "ROLE"));
 
     }
 

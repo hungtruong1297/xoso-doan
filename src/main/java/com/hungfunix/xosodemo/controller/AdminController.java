@@ -1,6 +1,7 @@
 package com.hungfunix.xosodemo.controller;
 
 import com.hungfunix.xosodemo.model.User;
+import com.hungfunix.xosodemo.models.MessageResponse;
 import com.hungfunix.xosodemo.repository.RoleRepository;
 import com.hungfunix.xosodemo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @RestController
@@ -27,29 +26,26 @@ public class AdminController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/add")
-    public ResponseEntity<String> addUserByAdmin(@RequestBody User user) {
+    public ResponseEntity<?> addUserByAdmin(@RequestBody User user) {
 
         if (this.userRepository.findUserByMail(user.getMail()) == null) {
 
             String pwd = user.getPassword();
             String encryptPwd = passwordEncoder.encode(pwd);
             user.setPassword(encryptPwd);
+            user.setStatus(1);
 
             userRepository.save(user);
             System.out.println("User added.");
-            return new ResponseEntity<>("User added.", HttpStatus.OK);
+//            return new ResponseEntity<>("User added.", HttpStatus.OK);
+            return ResponseEntity.ok(new MessageResponse("User added."));
         } else {
             return new ResponseEntity<>("User not added. Duplicated user.", HttpStatus.CONFLICT);
         }
     }
 
-    @GetMapping("")
-    public String adminPage() {
-        return "From /admin";
-    }
-
     @PostMapping("/resetPassword")
-    public ResponseEntity<String> resetPassword(@RequestBody User userInput) {
+    public ResponseEntity<?> resetPassword(@RequestBody User userInput) {
         User user = userRepository.findUserById(userInput.getId());
 
         String newPassword = generateRandomPassword();
@@ -59,8 +55,7 @@ public class AdminController {
         userRepository.save(user);
 
         System.out.println(newPassword);
-        return new ResponseEntity<>(newPassword, HttpStatus.OK);
-        // TODO: Still in Dev
+        return ResponseEntity.ok(new MessageResponse(newPassword));
     }
 
 
@@ -79,8 +74,4 @@ public class AdminController {
         System.out.println(generatedString);
         return generatedString;
     }
-
-
-
-
 }

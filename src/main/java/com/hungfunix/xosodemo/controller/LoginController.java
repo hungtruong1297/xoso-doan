@@ -1,5 +1,6 @@
 package com.hungfunix.xosodemo.controller;
 
+import com.hungfunix.xosodemo.model.Role;
 import com.hungfunix.xosodemo.model.User;
 import com.hungfunix.xosodemo.models.AuthenticationResponse;
 import com.hungfunix.xosodemo.repository.UserRepository;
@@ -13,6 +14,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/login")
@@ -55,7 +61,14 @@ public class LoginController {
         String token = jwtTokenUtil.generateToken(userDetails);
         String username = jwtTokenUtil.extractUsername(token);
 
-        return ResponseEntity.ok(new AuthenticationResponse(token, username));
+        User user = userRepository.findUserByMail(request.getMail());
+        Set<Role> roles = user.getRoles();
+        String roleName = "";
+
+        for (Role role : roles) {
+            roleName = role.getRoleName();
+        }
+        return ResponseEntity.ok(new AuthenticationResponse(token, username, roleName));
 
     }
 }
