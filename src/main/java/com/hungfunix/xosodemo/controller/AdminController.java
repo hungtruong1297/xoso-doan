@@ -25,9 +25,13 @@ public class AdminController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private String generateRandomPassword;
+
     @PostMapping("/add")
     public ResponseEntity<?> addUserByAdmin(@RequestBody User user) {
 
+        // If user doesn't exist, then add user
         if (this.userRepository.findUserByMail(user.getMail()) == null) {
 
             String pwd = user.getPassword();
@@ -48,7 +52,7 @@ public class AdminController {
     public ResponseEntity<?> resetPassword(@RequestBody User userInput) {
         User user = userRepository.findUserById(userInput.getId());
 
-        String newPassword = generateRandomPassword();
+        String newPassword = generateRandomPassword;
         String encryptedPWD = passwordEncoder.encode(newPassword);
 
         user.setPassword(encryptedPWD);
@@ -59,19 +63,19 @@ public class AdminController {
     }
 
 
-    public String generateRandomPassword() {
-        int leftLimit = 48; // numeral '0'
-        int rightLimit = 122; // letter 'z'
-        int targetStringLength = 10;
-        Random random = new Random();
-
-        String generatedString = random.ints(leftLimit, rightLimit + 1)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-
-        System.out.println(generatedString);
-        return generatedString;
-    }
+//    public String generateRandomPassword() {
+//        int leftLimit = 48; // numeral '0'
+//        int rightLimit = 122; // letter 'z'
+//        int targetStringLength = 10;
+//        Random random = new Random();
+//
+//        String generatedString = random.ints(leftLimit, rightLimit + 1)
+//                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+//                .limit(targetStringLength)
+//                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+//                .toString();
+//
+//        System.out.println(generatedString);
+//        return generatedString;
+//    }
 }

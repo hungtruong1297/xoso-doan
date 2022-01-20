@@ -7,7 +7,7 @@ public class MessageResponse {
         this.message = message;
     }
 
-    public String getNewPassword() {
+    public String getMessage() {
         return message;
     }
 }

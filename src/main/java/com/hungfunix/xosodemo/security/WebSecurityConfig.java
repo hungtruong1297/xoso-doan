@@ -4,6 +4,7 @@ import com.hungfunix.xosodemo.filters.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -34,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     // Config DaoAuthenticationProvider
     // that uses Beans
-    // passwordEncoder() and userDtailsService()
+    // passwordEncoder() and userDetailsService()
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
@@ -83,6 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/admin/**").hasAuthority("ADMIN")
                     .antMatchers("/authenticate").permitAll()
                     .antMatchers("/api/register").permitAll()
+                    .antMatchers("/api/forgot").permitAll()
                     .antMatchers("/api/login").permitAll()
                     .antMatchers("/api/admin").hasAuthority("ADMIN")
                     .antMatchers("/api/users").hasAuthority("ADMIN")

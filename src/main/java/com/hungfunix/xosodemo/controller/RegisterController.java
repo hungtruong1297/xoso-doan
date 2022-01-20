@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashSet;
 import java.util.Set;
-
+// RestController -> JSON object [  ]
+// return // .html
 @RestController
 @RequestMapping("/api/register")
 public class RegisterController {
