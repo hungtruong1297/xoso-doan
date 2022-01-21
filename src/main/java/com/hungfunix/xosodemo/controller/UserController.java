@@ -1,16 +1,11 @@
 package com.hungfunix.xosodemo.controller;
 
-import com.hungfunix.xosodemo.model.Result;
 import com.hungfunix.xosodemo.model.User;
-import com.hungfunix.xosodemo.repository.UserRepository;
+import com.hungfunix.xosodemo.models.MessageResponse;
+import com.hungfunix.xosodemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,46 +15,27 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @GetMapping("")
     public List<User> getActiveUsers() {
-        // Status id: 1 -> Active
-        // Status id: 0 -> Inactive
-        return userRepository.findUserByStatus(1);
+        return userService.findUserByStatus(1); // 1 equals to Status Active
     }
 
     @GetMapping("/searchByMail/{userMail}")
     public List<User> getUsersByMail(@PathVariable String userMail) {
-        return userRepository.findAllByMailContains(userMail);
+        return userService.findAllByMailContains(userMail);
     }
 
     @GetMapping("/searchByPhone/{phone}")
     public List<User> getUsersByPhone(@PathVariable String phone) {
-        return userRepository.findAllByPhoneContains(phone);
+        return userService.findAllByPhoneContains(phone);
     }
 
 
     @DeleteMapping("/{userMail}")
-    public ResponseEntity<User> disableUserByEmail(@PathVariable(value="userMail") String userMail) {
-        User user = userRepository.findUserByMail(userMail);
-        if (user == null) {
-            throw new UsernameNotFoundException(userMail);
-        }
-
-//        try {
-//            userRepository.deleteById(userMail);
-//            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Deleted.");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-        user.setStatus(0);
-        userRepository.save(user);
-
-        return ResponseEntity.ok(user);
+    public ResponseEntity<?> disableUserByEmail(@PathVariable(value="userMail") String userMail) {
+        userService.disableUserByEmail(userMail);
+        return ResponseEntity.ok(new MessageResponse("Disabled."));
     }
-
-
-
 }
