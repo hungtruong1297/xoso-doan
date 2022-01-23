@@ -36,6 +36,11 @@ public class UserController {
     @DeleteMapping("/{userMail}")
     public ResponseEntity<?> disableUserByEmail(@PathVariable(value="userMail") String userMail) {
         userService.disableUserByEmail(userMail);
-        return ResponseEntity.ok(new MessageResponse("Disabled."));
+        return ResponseEntity.ok(new MessageResponse("User Disabled."));
+    }
+
+    @PatchMapping("")
+    public ResponseEntity<?> makeAdmin(@RequestBody int userId) {
+        return userService.makeAdmin(userId);
     }
 }

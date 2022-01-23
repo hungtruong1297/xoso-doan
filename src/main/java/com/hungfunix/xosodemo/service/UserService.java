@@ -1,15 +1,18 @@
 package com.hungfunix.xosodemo.service;
 
+import com.hungfunix.xosodemo.model.Role;
 import com.hungfunix.xosodemo.model.User;
+import com.hungfunix.xosodemo.models.MessageResponse;
 import com.hungfunix.xosodemo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -54,6 +57,18 @@ public class UserService {
     }
 
 
-
-
+    public ResponseEntity<?> makeAdmin(int userId) {
+        User user = userRepository.findUserById(userId);
+        if (user != null) {
+            Role admin = new Role();
+            admin.setRoleId(1);
+            admin.setRoleName("ADMIN");
+            Set<Role> roles = new HashSet<>();
+            roles.add(admin);
+            user.setRoles(roles);
+            userRepository.save(user);
+            return ResponseEntity.ok(new MessageResponse("Admin granted."));
+        }
+        return new ResponseEntity<>("Error", HttpStatus.NOT_FOUND);
+    }
 }
