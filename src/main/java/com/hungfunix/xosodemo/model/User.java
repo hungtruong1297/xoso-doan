@@ -3,6 +3,7 @@ package com.hungfunix.xosodemo.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Table(name="[USER]")
 @Data
 @NoArgsConstructor
+@Component
 public class User {
 
     @Id

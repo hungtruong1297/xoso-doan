@@ -31,8 +31,10 @@ public class PasswordService {
             return new ResponseEntity<>(new MessageResponse("User not found"), HttpStatus.I_AM_A_TEAPOT);
         }
         String newPassword = passwordUtil.generateRandomPassword();
+
+        // Passing "new random password" to reset-password.html
         user.setPassword(newPassword);
-        mailService.sendActivationEmail(user);
+        mailService.sendResetPasswordEmail(user);
 
         user.setPassword(encoder.encode(newPassword));
         userRepository.save(user);

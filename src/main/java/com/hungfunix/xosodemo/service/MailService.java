@@ -54,9 +54,9 @@ public class MailService {
     }
 
     @Async
-    public void sendActivationEmail(User user) {
-        log.debug("Sending activation email to '{}'", user.getMail());
-        sendEmailFromTemplate(user, "templates/email/activation", "Springit User Activation");
+    public void sendResetPasswordEmail(User user) {
+        log.debug("Sending reset password email to '{}'", user.getMail());
+        sendEmailFromTemplate(user, "templates/email/reset-password", "Springit User Activation");
     }
 
     @Async

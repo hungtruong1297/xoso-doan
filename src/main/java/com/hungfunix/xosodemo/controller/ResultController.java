@@ -26,11 +26,13 @@ public class ResultController {
         return resultService.getAllResults();
     }
 
+    //Controller for Admin
     @GetMapping("/{date}/{provinceId}")
     public List<Result> getResultsByProvinceIdAndDate(@PathVariable (value="provinceId") Long provinceId, @PathVariable (value="date") String dateStr) throws ParseException {
         return resultService.getResultsByProvinceIdAndDate(provinceId, dateStr);
     }
 
+    //Controller for User
     @GetMapping("/{date}/{provinceId}/{value}")
     public List<Result> getResultsByProvinceIdAndDateAndCheckPrize(@PathVariable (value="provinceId") Long provinceId, @PathVariable (value="date") String dateStr, @PathVariable (value="value") String value) throws ParseException {
         return resultService.getResultsByProvinceIdAndDateAndCheckPrize(provinceId,dateStr,value);

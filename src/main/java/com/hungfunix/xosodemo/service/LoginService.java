@@ -21,8 +21,11 @@ import java.util.Set;
 @Service
 public class LoginService {
 
+//    @Autowired
+//    UserRepository userRepository;
+
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Autowired
     BCryptPasswordEncoder encoder;
@@ -58,7 +61,7 @@ public class LoginService {
         String token = jwtTokenUtil.generateToken(userDetails);
         String username = jwtTokenUtil.extractUsername(token);
 
-        User user = userRepository.findUserByMail(request.getMail());
+        User user = userService.findUserByMail(request.getMail());
         Set<Role> roles = user.getRoles();
         String roleName = "";
 

@@ -1,15 +1,20 @@
 package com.hungfunix.xosodemo.service;
 
+import com.hungfunix.xosodemo.dto.UserDTO;
+import com.hungfunix.xosodemo.model.Role;
 import com.hungfunix.xosodemo.model.User;
 import com.hungfunix.xosodemo.models.MessageResponse;
 import com.hungfunix.xosodemo.repository.RoleRepository;
 import com.hungfunix.xosodemo.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Set;
 
 @Service
 public class AdminService {
@@ -34,7 +39,6 @@ public class AdminService {
             String pwd = user.getPassword();
             String encryptPwd = passwordEncoder.encode(pwd);
             user.setPassword(encryptPwd);
-            user.setStatus(1);
 
             userRepository.save(user);
             System.out.println("User added.");

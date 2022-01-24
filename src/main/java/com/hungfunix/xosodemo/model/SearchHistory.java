@@ -3,10 +3,7 @@ package com.hungfunix.xosodemo.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -17,9 +14,17 @@ public class SearchHistory {
 
     @Id
     private long id;
-    private String userMail;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private Date date;
-    private long provinceId;
+
+    @ManyToOne
+    @JoinColumn(name = "province_id")
+    private Province province;
+
     private String searchValue;
 
 }
