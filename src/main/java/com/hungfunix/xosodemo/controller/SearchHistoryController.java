@@ -6,6 +6,7 @@ import com.hungfunix.xosodemo.service.SearchHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -25,10 +26,18 @@ public class SearchHistoryController {
         return searchHistoryService.findAllByUserMail(userMail);
     }
 
-    @PostMapping("")
-    public List<SearchHistoryDTO> findAllByUserMail(@RequestBody User user) {
-        var userMail = user.getMail();
-        return searchHistoryService.findAllByUserMail(userMail);
+//    @PostMapping("")
+//    public List<SearchHistoryDTO> findAllByUserMail(@RequestBody User user) {
+//        var userMail = user.getMail();
+//        return searchHistoryService.findAllByUserMail(userMail);
+//    }
+
+    @PostMapping("/delete")
+    @Transactional
+    public void deleteSearchHistories(@RequestBody Long[] ids) {
+        for (Long id : ids) {
+            searchHistoryService.deleteById(id);
+        }
     }
 
 

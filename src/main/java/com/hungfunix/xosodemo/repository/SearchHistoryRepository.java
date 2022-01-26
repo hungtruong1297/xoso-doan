@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface SearchHistoryRepository extends JpaRepository<SearchHistory, Long> {
 
-    // Testing query with user_mail = 'chai1'
+    // Testing query with user_mail y= 'chai1'
 //    @Query(value = "SELECT * FROM SEARCH_HISTORY WHERE user_mail='chai1'",
 //            nativeQuery = true)
 //    Collection<SearchHistory> getSearchHistoriesByUserMail(String userMail);

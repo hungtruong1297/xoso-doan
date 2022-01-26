@@ -3,6 +3,7 @@ package com.hungfunix.xosodemo.service;
 import com.hungfunix.xosodemo.dto.SearchHistoryDTO;
 import com.hungfunix.xosodemo.model.SearchHistory;
 import com.hungfunix.xosodemo.repository.SearchHistoryRepository;
+import com.hungfunix.xosodemo.util.JwtUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class SearchHistoryService {
 
     @Autowired
     SearchHistoryRepository searchHistoryRepository;
+
+    @Autowired
+    JwtUtil jwtUtil;
 
     public List<SearchHistoryDTO> getAllSearchHistory() {
         return searchHistoryRepository.findAll()
@@ -38,5 +42,9 @@ public class SearchHistoryService {
         searchHistoryDTO = modelMapper.map(searchHistory, SearchHistoryDTO.class);
         return searchHistoryDTO;
 
+    }
+
+    public void deleteById(Long id) {
+        searchHistoryRepository.deleteById(id);
     }
 }
