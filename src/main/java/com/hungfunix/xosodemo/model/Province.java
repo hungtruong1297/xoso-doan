@@ -17,7 +17,6 @@ public class Province {
     @Id
     private long id;
 
-    @NonNull
     private String name;
 
 

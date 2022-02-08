@@ -70,7 +70,7 @@ public class ResultService {
         return ResponseEntity.ok(updatedResult);
     }
 
-    public ResponseEntity<Result> deleteResult(@PathVariable(value="id") long resultId) {
+    public ResponseEntity<Result> deleteResult(long resultId) {
         Result result = resultRepository.findById(resultId).orElseThrow();
         resultRepository.deleteById(resultId);
         return ResponseEntity.ok(result);

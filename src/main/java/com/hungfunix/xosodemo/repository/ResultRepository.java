@@ -13,7 +13,4 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
 
     List<Result> findByProvinceIdAndDate(Long provinceId, Date date);
 
-    List<Result> findByProvinceIdAndDateAndResult(Long provinceId, Date date, String result);
-
-
 }

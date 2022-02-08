@@ -14,7 +14,7 @@ public class SearchHistoryDTO {
     private long id;
     private String userMail;
     private Date date;
-//    private long provinceId;
+    private long provinceId;
     private String provinceName;
     private String searchValue;
 

@@ -2,10 +2,13 @@ package com.hungfunix.xosodemo.controller;
 
 import com.hungfunix.xosodemo.dto.SearchHistoryDTO;
 import com.hungfunix.xosodemo.dto.projection.SearchHistoryView;
+import com.hungfunix.xosodemo.model.Result;
 import com.hungfunix.xosodemo.model.SearchHistory;
 import com.hungfunix.xosodemo.model.User;
+import com.hungfunix.xosodemo.repository.ResultRepository;
 import com.hungfunix.xosodemo.repository.SearchHistoryRepository;
 import com.hungfunix.xosodemo.service.SearchHistoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,7 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -22,6 +28,9 @@ public class SearchHistoryController {
 
     @Autowired
     SearchHistoryService searchHistoryService;
+
+    @Autowired
+    ModelMapper modelMapper;
 
 
     @GetMapping("/{userMail}")
@@ -42,6 +51,24 @@ public class SearchHistoryController {
             searchHistoryService.deleteById(id);
         }
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addSearchHistory(@RequestBody SearchHistoryDTO searchHistoryDTO) throws ParseException {
+        return searchHistoryService.addSearchHistory(searchHistoryDTO);
+    }
+
+
+    @Autowired
+    ResultRepository resultRepository;
+
+    @GetMapping("/findByDate")
+    public List<Result> findByDate() throws ParseException {
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2021-11-28");
+
+        List<Result> results = resultRepository.findByProvinceIdAndDate(1L, date);
+        return results;
+    }
+
 
     // Demo Purpose
     @Autowired
