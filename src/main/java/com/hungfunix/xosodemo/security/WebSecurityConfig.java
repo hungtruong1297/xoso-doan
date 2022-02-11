@@ -83,6 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
+                    .antMatchers("/files").permitAll()
                     .antMatchers("/api/results/**").permitAll()
                     .antMatchers("/api/searchHistory/**").permitAll()
                     .antMatchers("/admin/**").hasAuthority("ADMIN")

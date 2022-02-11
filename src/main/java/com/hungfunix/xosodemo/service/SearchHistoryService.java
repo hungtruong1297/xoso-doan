@@ -61,18 +61,18 @@ public class SearchHistoryService {
 
             // V1:
             searchHistoryRepository.save(searchHistory);
-            MessageResponse message = new MessageResponse("Khong trung");
+            MessageResponse message = new MessageResponse("Chúc bạn may mắn lần sau!");
 
         SimpleDateFormat inputFormat = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
 
-        String dateStr = searchHistoryDTO.getDate().toString(); // Example: "Sun Nov 28 00:00:00 ICT 2021";
+        String dateStr = searchHistoryDTO.getDate().toString(); // Output: "Sun Nov 28 00:00:00 ICT 2021";
         long provinceId = searchHistoryDTO.getProvinceId();
         Date date = inputFormat.parse(dateStr);
 
         List<Result> results = resultRepository.findByProvinceIdAndDate(provinceId, date);
         results.forEach(result -> {
             if (searchHistoryDTO.getSearchValue().endsWith(result.getResult())) {
-                message.setMessage("Trung roi! Giai: " + result.getWinning().getName());
+                message.setMessage("Chúc mừng bạn! Giải: " + result.getWinning().getName());
             }
         });
             return ResponseEntity.ok().body(message);

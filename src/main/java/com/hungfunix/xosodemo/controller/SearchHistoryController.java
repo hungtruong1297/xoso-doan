@@ -81,6 +81,7 @@ public class SearchHistoryController {
     }
 
     // Demo Paging
+    // Recommend: Gui luon 1 object Page, thay vi dual en PathVariable
     @GetMapping("/pagination/{offset}/{pageSize}")
     public Page<SearchHistory> findAllSearchHistoryWithPagination(@PathVariable int offset,@PathVariable int pageSize) {
         Page<SearchHistory> searchHistoryPage = searchHistoryRepository.findAll(PageRequest.of(offset, pageSize));
