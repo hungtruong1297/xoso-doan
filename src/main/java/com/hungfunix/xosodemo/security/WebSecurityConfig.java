@@ -17,6 +17,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.Random;
 
@@ -85,19 +88,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                    .antMatchers("/files").permitAll()
-                    .antMatchers("/api/results/**").permitAll()
-                    .antMatchers("/api/searchHistory/**").permitAll()
-                    .antMatchers("/admin/**").hasAuthority("ADMIN")
-                    .antMatchers("/authenticate").permitAll()
-                    .antMatchers("/api/register").permitAll()
-                    .antMatchers("/api/forgot").permitAll()
-                    .antMatchers("/api/login").permitAll()
-                    .antMatchers("/api/admin").hasAuthority("ADMIN")
-                    .antMatchers("/api/users").hasAuthority("ADMIN")
-                    .anyRequest().authenticated()
-                    .and()
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Tell spring security don't create session (Step 1)
+                .antMatchers("/files").permitAll()
+                .antMatchers("/api/results/**").permitAll()
+                .antMatchers("/api/searchHistory/**").permitAll()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/api/register").permitAll()
+                .antMatchers("/api/forgot").permitAll()
+                .antMatchers("/api/login").permitAll()
+                .antMatchers("/api/admin").hasAuthority("ADMIN")
+                .antMatchers("/api/users").hasAuthority("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Tell spring security don't create session (Step 1)
         // Step 2:
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Make sure jwtRequestFilter is called before UsernamePassword... called
 
