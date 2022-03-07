@@ -39,10 +39,10 @@ public class AdminService {
             String pwd = user.getPassword();
             String encryptPwd = passwordEncoder.encode(pwd);
             user.setPassword(encryptPwd);
+            // Set status to active
+            user.setStatus(1);
 
             userRepository.save(user);
-            System.out.println("User added.");
-//            return new ResponseEntity<>("User added.", HttpStatus.OK);
             return ResponseEntity.ok(new MessageResponse("User added."));
         } else {
             return new ResponseEntity<>("User not added. Duplicated user.", HttpStatus.CONFLICT);
